@@ -1,0 +1,66 @@
+<app-progress [show]="showProgress"></app-progress>
+
+<table class="table table-bordered h-100 mb-0" style="table-layout:fixed;">
+    <thead class="table-secondary">
+        <tr>
+            <th scope="col" class="font-weight-bold">NEW <span class="d-inline-block float-right">{{ statuses.new.length }}</span></th>
+            <th scope="col" class="font-weight-bold"> WAITING ON CUSTOMER <span
+                    class="d-inline-block float-right">{{ statuses.waitingOnCustomer.length }}</span></th>
+            <th scope="col" class="font-weight-bold">WAITING ON US <span
+                    class="d-inline-block float-right">{{ statuses.waitingOnUs.length }}</span></th>
+            <th scope="col" class="font-weight-bold">CLOSED <span class="d-inline-block float-right">{{ statuses.closed.length }}</span></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>
+                <div cdkDropList #newList="cdkDropList" [cdkDropListData]="statuses.new"
+                    [cdkDropListConnectedTo]="[waitingOnCustomerList, waitingOnUsList, closedList]"
+                    class="status-list h-100" (cdkDropListDropped)="onDrop($event)" [attr.status]="Status.NEW">
+                    <div class="alert-box-container" *ngFor="let item of statuses.new" cdkDrag>
+                        <app-alert-box [id]="item.id" [alert]="item" [pipelineId]="pipelineId"
+                            [selectedFields]="selectedFields" class="w-100">
+                        </app-alert-box>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <div cdkDropList #waitingOnCustomerList="cdkDropList" [cdkDropListData]="statuses.waitingOnCustomer"
+                    [cdkDropListConnectedTo]="[newList, waitingOnUsList, closedList]" class="status-list h-100"
+                    (cdkDropListDropped)="onDrop($event)" [attr.status]="Status.WAITING_ON_CUSTOMER">
+                    <div class="alert-box-container" *ngFor="let item of statuses.waitingOnCustomer" cdkDrag>
+                        <app-alert-box [id]="item.id" [alert]="item" [pipelineId]="pipelineId"
+                            [selectedFields]="selectedFields" class="w-100">
+                        </app-alert-box>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <div cdkDropList #waitingOnUsList="cdkDropList" [cdkDropListData]="statuses.waitingOnUs"
+                    [cdkDropListConnectedTo]="[newList, waitingOnCustomerList, closedList]" class="status-list h-100"
+                    (cdkDropListDropped)="onDrop($event)" [attr.status]="Status.WAITING_ON_US">
+                    <div class="alert-box-container" *ngFor="let item of statuses.waitingOnUs" cdkDrag>
+                        <app-alert-box [id]="item.id" [alert]="item" [pipelineId]="pipelineId"
+                            [selectedFields]="selectedFields" class="w-100">
+                        </app-alert-box>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <div cdkDropList #closedList="cdkDropList" [cdkDropListData]="statuses.closed"
+                    [cdkDropListConnectedTo]="[ newList, waitingOnCustomerList, waitingOnUsList]"
+                    class="status-list h-100" (cdkDropListDropped)="onDrop($event)" [attr.status]="Status.CLOSED">
+                    <div class="alert-box-container" *ngFor="let item of statuses.closed" cdkDrag>
+                        <app-alert-box [id]="item.id" [alert]="item" [pipelineId]="pipelineId"
+                            [selectedFields]="selectedFields" class="w-100">
+                        </app-alert-box>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

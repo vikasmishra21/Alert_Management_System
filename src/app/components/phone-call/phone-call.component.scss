@@ -1,0 +1,25 @@
+.btn-circle {
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 13px;
+  width: 40px;
+  height: 40px;
+  line-height: 1.8;
+  text-align: center;
+  background-color: #fafafa;
+}
+.btn-circle:hover {
+  background-color: #fff;
+  border-color: #2200ff !important;
+}
+.btn-circle i {
+  padding: 12px;
+}
+
+.text-primary {
+  color: #2200ff !important;
+}
+.phone:hover{text-decoration: underline;cursor: pointer;}
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 200px !important;
+}

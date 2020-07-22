@@ -1,0 +1,14 @@
+<div class="h-100 d-flex flex-column">
+    <div class="mb-2 p-3 bg-dark text-white">
+        <h5 class="font-weight-normal w-100 pl-2">Respondent Survey
+            <img src="../../../assets/images/delete.png" class="click float-right" (click)="close()" />
+            <div class="clearfix"></div>
+        </h5>
+    </div>
+
+    <div class="flex-fill position-relative ml-auto mr-auto border rounded mb-3" style="width:850px;">
+        <app-progress [show]="showProgress"></app-progress>
+
+        <iframe *ngIf="showIFrame" [src]="iFrameUrl" frameborder="0" class="w-100 h-100"></iframe>
+    </div>
+</div>

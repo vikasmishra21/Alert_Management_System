@@ -1,0 +1,319 @@
+<div class="container-fluid h-100 font-size-80">
+    <app-progress [show]="showProgress"></app-progress>
+
+    <div class="row">
+        <div class="col-2 pt-2 pl-4 display-4 alerts-title">
+            <img src="../../../assets/images/numr_icon.png" style="height:40px" class="mr-2" />
+            <span class="font-size-150">Alerts
+                <span class="font-size-80">{{appVersion}}</span>
+            </span>
+        </div>
+
+        <div class="col-10 pt-2 mt-auto">
+            <div class="d-inline-block float-left">
+                <div class="d-inline-block mr-2">
+                    <div class="btn-group  border-0 btn-alert" role="group" aria-label="Alerts view">
+                        <button type="button" (click)="changeAlertsView('board')"
+                            [ngClass]="{'active': alertsView === 'board'}" class="btn btn-alert click">Board</button>
+                        <button type="button" (click)="changeAlertsView('table')"
+                            [ngClass]="{'active': alertsView === 'table'}" class="btn btn-alert click">Table</button>
+                    </div>
+                </div>
+
+                <div class="d-inline-block mr-2 align-middle">
+                    <div class="input-group">
+                        <input type="text" class="form-control" aria-label="Search" #alertSearchInput
+                            placeholder="Search..." style="width: 140px;">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter -->
+                <div class="d-inline-block mr-2 align-middle position-relative">
+                    <span class="btn p-1" style="font-size: 1.2rem;width:32px;border: 1px solid #cbd6e2 !important;
+                background-color: #fafafa !important;height:33.5px;border-radius:3px" (click)="toggleFilterMenu()"
+                        matTooltip="Apply Filters" matTooltipPosition="above">
+                        <i class="fas fa-filter"></i></span>
+
+                    <div class="position-absolute border bg-white filter-menu shadow text-left"
+                        *ngIf="filters.displayMenu">
+                        <div class="clearfix bg-light p-2 mb-2">
+                            <span class="filter-menu-title float-left">Apply Filters</span>
+                            <button class="btn btn-link font-size-80 float-right" (click)="clearAlertFilters()">Clear
+                                all</button>
+                        </div>
+                        <!-- <hr class="m-0 mt-1 mb-2"> -->
+                        <div class="p-2">
+                            <div class="mb-2">
+                                <span class="text-default">Created On</span>
+                                <mat-form-field class="d-block font-size-80 border-0">
+                                    <mat-select [(value)]="filters.createdOn"
+                                        (selectionChange)="resetValidationError('createdOn')">
+                                        <mat-option [value]="DateRange.NONE">None</mat-option>
+                                        <mat-option [value]="DateRange.TODAY">Today</mat-option>
+                                        <mat-option [value]="DateRange.YESTERDAY">Yesterday</mat-option>
+                                        <mat-option [value]="DateRange.LAST_7_DAYS">Last 7 days</mat-option>
+                                        <mat-option [value]="DateRange.CUSTOM">Custom</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <div class="d-flex flex-row" *ngIf="filters.createdOn === DateRange.CUSTOM">
+                                    <span class="flex-fill p-1" style="width: 80px">
+                                        <mat-form-field class="d-inline font-size-80 border-0">
+                                            <mat-label>Start</mat-label>
+                                            <input matInput [matDatepicker]="createdOnStart"
+                                                [(ngModel)]="filters.createdOnStart">
+                                            <mat-datepicker-toggle matSuffix [for]="createdOnStart">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #createdOnStart></mat-datepicker>
+                                        </mat-form-field>
+                                    </span>
+
+                                    <span class="flex-fill p-1" style="width: 80px">
+                                        <mat-form-field class="d-inline font-size-80 border-0">
+                                            <mat-label>End</mat-label>
+                                            <input matInput [matDatepicker]="createdOnEnd"
+                                                [(ngModel)]="filters.createdOnEnd">
+                                            <mat-datepicker-toggle matSuffix [for]="createdOnEnd">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #createdOnEnd></mat-datepicker>
+                                        </mat-form-field>
+                                    </span>
+                                </div>
+                                <span *ngIf="isInvalidCreatedOnDate" class="text-danger font-size-80">*Please enter a
+                                    valid date
+                                    range</span>
+                                <span *ngIf="isCreatedOnDateEmpty" class="text-danger font-size-80">*Please enter the
+                                    date
+                                    range</span>
+                            </div>
+
+                            <div class="mb-2">
+                                <span class="text-default">Last Activity Date</span>
+                                <mat-form-field class="d-block font-size-80 border-0">
+                                    <mat-select [(value)]="filters.lastActivityDate"
+                                        (selectionChange)="resetValidationError('lastActivityOn')">
+                                        <mat-option [value]="DateRange.NONE">None</mat-option>
+                                        <mat-option [value]="DateRange.TODAY">Today</mat-option>
+                                        <mat-option [value]="DateRange.YESTERDAY">Yesterday</mat-option>
+                                        <mat-option [value]="DateRange.LAST_7_DAYS">Last 7 days</mat-option>
+                                        <mat-option [value]="DateRange.CUSTOM">Custom</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <div class="d-flex flex-row" *ngIf="filters.lastActivityDate === DateRange.CUSTOM">
+                                    <span class="flex-fill p-1" style="width: 80px">
+                                        <mat-form-field class="d-inline font-size-80 border-0">
+                                            <mat-label>Start</mat-label>
+                                            <input matInput [matDatepicker]="lastActivityDateStart"
+                                                [(ngModel)]="filters.lastActivityDateStart">
+                                            <mat-datepicker-toggle matSuffix [for]="lastActivityDateStart">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #lastActivityDateStart></mat-datepicker>
+                                        </mat-form-field>
+                                    </span>
+
+                                    <span class="flex-fill p-1" style="width: 80px">
+                                        <mat-form-field class="d-inline font-size-80 border-0">
+                                            <mat-label>End</mat-label>
+                                            <input matInput [matDatepicker]="lastActivityDateEnd"
+                                                [(ngModel)]="filters.lastActivityDateEnd">
+                                            <mat-datepicker-toggle matSuffix [for]="lastActivityDateEnd">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #lastActivityDateEnd></mat-datepicker>
+                                        </mat-form-field>
+                                    </span>
+                                </div>
+                                <span *ngIf="isInvalidLastActivityOnDate" class="text-danger font-size-80">*Please enter
+                                    a valid date
+                                    range</span>
+                                <span *ngIf="isLastActivityOnDateEmpty" class="text-danger font-size-80">*Please enter
+                                    the date
+                                    range</span>
+                            </div>
+
+                            <div class="mb-2">
+                                <span class="text-default">Status</span>
+                                <mat-form-field class="d-block font-size-80 border-0">
+                                    <mat-select [(value)]="filters.status">
+                                        <mat-option [value]="DateRange.NONE">None</mat-option>
+                                        <mat-option [value]="Status.NEW">New</mat-option>
+                                        <mat-option [value]="Status.WAITING_ON_US">Waiting On Us</mat-option>
+                                        <mat-option [value]="Status.WAITING_ON_CUSTOMER">Waiting On Customer
+                                        </mat-option>
+                                        <mat-option [value]="Status.CLOSED">Closed</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="mb-2">
+                                <span class="text-default">Priority</span>
+                                <mat-form-field class="d-block font-size-80 border-0">
+                                    <mat-select [(value)]="filters.priority">
+                                        <mat-option [value]="DateRange.NONE">None</mat-option>
+                                        <mat-option [value]="Priority.HIGH">High</mat-option>
+                                        <mat-option [value]="Priority.MEDIUM">Medium</mat-option>
+                                        <mat-option [value]="Priority.LOW">Low</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="mb-2" *ngIf="isProjectUser">
+                                <span class="text-default">Assigned To
+                                    <span *ngIf="filters.gettingUsers" class="small text-black-50">(Loading...)</span>
+                                </span>
+                                <mat-form-field class="d-block font-size-80 border-0">
+                                    <mat-select [disabled]="filters.gettingUsers" [(value)]="filters.assignedTo"
+                                        multiple>
+                                        <mat-option *ngFor="let user of filters.users" [value]="user.username">
+                                            {{user.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div>
+                                <button class="btn btn-primary btn-block" (click)="submitFilters()">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-inline-block float-right">
+                <div class="d-inline-block mr-3 align-middle ml-2">
+                    <span class="font-weight-bold">Open:&nbsp;</span>
+                    <span class="mr-2">{{alertStats.open}}</span>&nbsp;
+
+                    <span class="font-weight-bold">Expired:&nbsp;</span>
+                    <span class="mr-2">{{alertStats.expired}}</span>&nbsp;
+
+                    <span class="font-weight-bold">Closed:&nbsp;</span>
+                    <span class="mr-1">{{alertStats.closed}}</span>
+                </div>
+
+                <div class="mr-2 align-middle d-inline-block">
+                    <span class="font-weight-bold">Median TTC&nbsp;</span>
+                </div>
+
+                <div class="d-inline-block align-middle mr-2" style="width: 80px">
+                    <div class="medianTTC">
+                        <div class="myAlert" [ngStyle]="medianTTCStyles.myTTC"></div>
+                        <div class="myAlertNode" [ngStyle]="medianTTCStyles.myTTC"
+                            matTooltip="Median time to close my alerts for this pipeline" matTooltipPosition="above">
+                        </div>
+                        <div class="myAlertValue" [ngStyle]="medianTTCStyles.myTTC">{{medianTTC.MyMedianTTC}}</div>
+                        <div class="allAlert" [ngStyle]="medianTTCStyles.allTTC"></div>
+                        <div class="allAlertNode" [ngStyle]="medianTTCStyles.allTTC"
+                            matTooltip="Median time to close all alerts for this pipeline" matTooltipPosition="above">
+                        </div>
+                        <div class="allAlertValue" [ngStyle]="medianTTCStyles.allTTC">All: {{medianTTC.MedianTTC}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-inline-block mr-1 align-middle">
+                    <span class="text-primary font-size-100">Sort on&nbsp;</span>
+                </div>
+
+                <div class="d-inline-block mr-3 align-middle text-right">
+                    <mat-form-field style="width: 140px">
+                        <mat-select [(value)]="sortOn" (selectionChange)="onSortOnChange()">
+                            <mat-option [value]="SortOn.CREATED_ON"><span class="font-weight-bold">Created On </span>
+                                <span class="font-size-80">(Newest
+                                    first)</span></mat-option>
+                            <mat-option [value]="SortOn.LAST_ACTIVITY"><span class="font-weight-bold">Last Activity
+                                </span><span class="font-size-80">(Newest
+                                    first)</span></mat-option>
+                            <mat-option [value]="SortOn.PRIORITY"><span class="font-weight-bold">Priority </span> <span
+                                    class="font-size-80">(Highest to
+                                    lowest)</span></mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="d-inline-block mr-3 align-middle" style="width: 120px">
+                    <app-logout></app-logout>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+    <hr>
+    <div class="row overflow-auto" [style.height.px]="getContentHeight()">
+        <div class="col-2 pt-2 pl-3 font-sm">
+            <div class="alertCategory click">
+                <span class="btn w-100 text-left click"
+                    [ngClass]="{'bg-highlight': selectedAlertCategory === AlertCategory.OPEN}"
+                    (click)="selectAlertCategory(AlertCategory.OPEN)">My Open Alerts</span>
+                <span class="btn w-100 text-left click"
+                    [ngClass]="{'bg-highlight': selectedAlertCategory === AlertCategory.OVERDUE}"
+                    (click)="selectAlertCategory(AlertCategory.OVERDUE)">My Overdue Alerts</span>
+                <span class="btn w-100 text-left click"
+                    [ngClass]="{'bg-highlight': selectedAlertCategory === AlertCategory.ALL}"
+                    (click)="selectAlertCategory(AlertCategory.ALL)">All My Alerts</span>
+                <span class="btn w-100 text-left click"
+                    [ngClass]="{'bg-highlight': selectedAlertCategory === AlertCategory.MEMBER}"
+                    (click)="selectAlertCategory(AlertCategory.MEMBER)">Me As Member</span>
+                <span *ngIf="isProjectUser" class="btn w-100 text-left click"
+                    [ngClass]="{'bg-highlight': selectedAlertCategory === AlertCategory.ALL_ALERTS}"
+                    (click)="selectAlertCategory(AlertCategory.ALL_ALERTS)">All Alerts</span>
+            </div>
+
+            <hr>
+
+            <div>
+                <div>
+                    <span class="font-weight-bold font-size-120">Alert Pipelines</span>
+                </div>
+
+                <div [style.height.px]="getPipelineHeight()" class="overflow-auto">
+                    <div *ngFor="let pipeline of alertPipelines; let i = index">
+                        <span class="btn w-100 hover text-left click"
+                            [ngClass]="{'bg-highlight': pipeline.id === selectedAlertPipeline?.id}"
+                            (click)="selectAlertPipeline(i)">{{pipeline.name}}
+                            <span class="font-weight-bold">({{pipeline.newAlerts}})</span></span>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div *ngIf="isProjectUser">
+                    <button class="btn btn-block btn-light border click mb-4" (click)="openVariableSelectorDialog()"><i
+                            class="fas fa-plus"></i>
+                        Add Fields
+                    </button>
+                </div>
+
+                <app-selected-fields [selectedFields]="selectedFields" (onFilterChange)="onFilterChange($event)">
+                </app-selected-fields>
+            </div>
+        </div>
+
+        <!-- Board and table view -->
+        <div class="col-10 pt-2">
+            <div *ngIf="alertsView === 'board'" class="h-100">
+                <app-board-view [alerts]="filteredAlerts" [pipelineId]="selectedAlertPipeline?.id"
+                    (onAlertStatusUpdate)="onAlertStatusUpdate($event)" [selectedFields]="selectedFields">
+                </app-board-view>
+            </div>
+
+            <div *ngIf="alertsView === 'table'">
+                <div class="clearfix mb-1">
+                    <span class="font-size-120 float-left"><i class="fas fa-ticket-alt"
+                            style="transform: rotate(-45deg);"></i> Alerts
+                        ({{filteredAlerts?.length}})</span>
+                    <button class="btn btn-light float-right border font-size-80"
+                        (click)="openColumnSelectorDialog()"><i class="fas fa-wrench"></i> Column Options</button>
+                </div>
+
+                <app-table-view [alerts]="filteredAlerts" [pipelineId]="selectedAlertPipeline?.id"
+                    [selectedColumns]="selectedColumns" [selectedFields]="selectedFields"></app-table-view>
+            </div>
+        </div>
+    </div>
+</div>

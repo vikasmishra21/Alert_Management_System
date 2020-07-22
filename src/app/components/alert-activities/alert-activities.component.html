@@ -1,0 +1,145 @@
+<app-progress [show]="showProgress"></app-progress>
+
+<div *ngFor="let activity of transformedActivities" class="mb-2 mt-2">
+    <div *ngIf="activity.activityTypeID === ActivityType.STATUS" class="bg-white border p-4 rounded">
+        <div class="clearfix mb-2">
+            <span class="float-left">
+                <i class="fas fa-ticket-alt mr-2" style="transform: rotate(-45deg);"></i>
+                <span class="font-size-100 font-weight-bold">Alert Status</span>
+            </span><span class="float-right font-size-80 text-secondary">{{activity.activityDate}}</span>
+        </div>
+
+        <span class="ml-4"><span class="text-primary">{{activity.activityBy}}</span> moved ticket from
+            <span class="text-primary">{{Status[activity.originalStatus]}}</span> to
+            <span class="text-primary">{{Status[activity.newStatus]}}</span>.</span>
+    </div>
+
+    <div *ngIf="activity.activityTypeID === ActivityType.PRIORITY" class="bg-white border p-4 rounded">
+        <div class="clearfix mb-2">
+            <span class="float-left">
+                <i class="fas fa-ticket-alt mr-2" style="transform: rotate(-45deg);"></i>
+                <span class="font-size-100 font-weight-bold">Alert Priority</span>
+            </span><span class="float-right font-size-80 text-secondary">{{activity.activityDate}}</span>
+        </div>
+
+        <span class="ml-4 mt-3"><span class="text-primary">{{activity.activityBy}}</span> changed priority from
+            <span class="text-primary">{{Priority[activity.originalPriority]}}</span> to
+            <span class="text-primary">{{Priority[activity.newPriority]}}</span>.</span>
+    </div>
+
+    <div *ngIf="activity.activityTypeID === ActivityType.NOTE" class="bg-white border p-4 rounded">
+        <div class="clearfix">
+            <span class="float-left">
+                <i class="fas fa-edit mr-2"></i>
+                <span class="font-size-100 font-weight-bold">Note</span></span>
+            <span class="float-right font-size-80 text-secondary">{{activity.activityDate}}</span>
+        </div>
+        <div class="ml-4 mt-3">
+            <span [innerHtml]="activity.note"></span>
+        </div>
+        <span class="text-primary ml-4 mt-3">{{activity.activityBy}}</span> left a note
+    </div>
+
+    <div *ngIf="activity.activityTypeID === ActivityType.EMAIL " class="bg-white border p-4 rounded">
+        <span class="float-left">
+            <i class="fas fa-envelope mr-2"></i>
+            <span class="font-size-100 font-weight-bold">Email</span>
+        </span>
+        <div class="clearfix">
+            <span class="float-right font-size-80 text-secondary">{{activity.activityDate}}</span>
+        </div>
+
+        <div class="ml-4 mt-3">
+            <strong class="font-weight-bold">Subject: </strong> <span [innerHtml]="activity.subject"
+                class="font-weight-bold"></span> <br>
+            <hr>
+            <span [innerHtml]="activity.body"></span>
+        </div>
+        <div class="mb-2 mt-3">
+            <span class="text-primary ml-4">{{activity.activityBy}}</span> sent an email to <span
+                class="text-primary">{{activity.emailTo}}</span>
+        </div>
+    </div>
+
+    <div *ngIf="activity.activityTypeID === ActivityType.ASSIGNMENT" class="bg-white border p-4 rounded">
+        <div class="clearfix">
+            <span class="float-left">
+                <i class="fas fa-check-square mr-2"></i>
+                <span class="font-size-100 font-weight-bold">Assigned To</span></span>
+            <span class="float-right font-size-80 text-secondary">{{activity.activityDate}}</span>
+        </div>
+
+        <span class="text-primary ml-4 mt-3 d-inline-block">{{activity.activityBy}}</span> assigned the alert to <span
+            class="text-primary">{{activity.newAssignedTo}}</span>
+    </div>
+
+    <div *ngIf="activity.activityTypeID === ActivityType.UPLOAD" class="bg-white border p-4 rounded">
+        <div class="clearfix">
+            <span class="float-left">
+                <i class="fas fa-upload mr-2"></i>
+                <span class="font-size-100 font-weight-bold">Upload</span></span>
+            <span class="float-right font-size-80 text-secondary">{{activity.activityDate}}</span>
+        </div>
+
+        <span class="text-primary ml-4 mt-3 d-inline-block">{{activity.activityBy}}</span> attached a file to Alert
+        <span class="pl-1 text-primary">{{activity.uploadedFile}}</span>
+        <span class="text-primary rounded border ml-2 p-2 click download" matTooltip="Download File"
+            matTooltipPosition="above" (click)="downloadFile(activity.uploadedFile)"><i
+                class="fas fa-download"></i></span>
+    </div>
+
+    <div *ngIf="activity.activityTypeID === ActivityType.CALL" class="bg-white border p-4 rounded">
+        <div class="clearfix">
+            <span class="float-left">
+                <i class="fas fa-phone-alt mr-2"></i>
+                <span class="font-size-100 font-weight-bold">Call</span></span>
+            <span class="float-right font-size-80 text-secondary">{{activity.activityDate}}</span>
+        </div>
+
+        <span class="text-primary ml-4 mt-3 d-inline-block">{{activity.activityBy}}</span> called the respondent
+        <div class="mt-3 ml-4">
+            <b>Status : </b><span>{{CallStatus[activity.callStatus]}}</span>
+        </div>
+        <div class="ml-4 mt-3">
+            <span [innerHtml]="activity.note" class="d-inline-block"></span>
+        </div>
+
+    </div>
+
+    <div *ngIf="activity.activityTypeID === ActivityType.ADD_MEMBER" class="bg-white border p-4 rounded">
+        <div class="clearfix">
+            <span class="float-left">
+                <i class="fas fa-user mr-2"></i>
+                <span class="font-size-100 font-weight-bold">Member added</span></span>
+            <span class="float-right font-size-80 text-secondary">{{activity.activityDate}}</span>
+        </div>
+        <div class="mt-2 ml-4">
+            Member
+            <span class="mt-1 ml-1  d-inline-block" *ngFor="let member of activity.memberArray">
+                <span class="text-primary" [matTooltip]="member.member" matTooltipPosition="above">
+                    {{member.memberName}}</span>
+            </span>
+            has been added by <span class="text-primary">{{activity.activityBy}}</span>
+        </div>
+
+    </div>
+
+    <div *ngIf="activity.activityTypeID === ActivityType.DELETE_MEMBER" class="bg-white border p-4 rounded">
+        <div class="clearfix">
+            <span class="float-left">
+                <i class="fas fa-user mr-2"></i>
+                <span class="font-size-100 font-weight-bold">Member deleted</span></span>
+            <span class="float-right font-size-80 text-secondary">{{activity.activityDate}}</span>
+        </div>
+        <div class="mt-2 ml-4">
+            Member
+            <span class="mt-1 ml-1  d-inline-block" *ngFor="let member of activity.memberArray">
+                <span class="text-primary" [matTooltip]="member.member" matTooltipPosition="above">
+                    {{member.memberName}}</span>
+            </span>
+            has been deleted by <span class="text-primary">{{activity.activityBy}}</span>
+        </div>
+
+    </div>
+
+</div>

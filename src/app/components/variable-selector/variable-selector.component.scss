@@ -1,0 +1,30 @@
+
+.close {
+    margin: auto;
+    margin-top: inherit;
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.selected-var-list {
+    min-height: 60px;
+    background: white;
+    border-radius: 4px;
+    cursor: move;
+    overflow: hidden;
+    display: block;
+    margin: 5px 0 5px 0;
+}
+
+.active{color: #2200ff !important;
+    background-color: #f2f2f2!important;
+    border: none!important;
+    border-bottom: 2px solid #2200ff!important;}
+    .mat-tree-node{min-height:40px}
+    .rotate{transform: rotate(-90deg)}
+    .mat-tree-node[aria-expanded="true"]{background-color: #fafafa!important;}
+    .mat-tree-node[aria-expanded="true"] .rotate{transform: rotate(0deg);}
+
+    .text-primary{color:#2200ff!important}

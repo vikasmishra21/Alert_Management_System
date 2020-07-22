@@ -1,0 +1,33 @@
+<div class="mt-2" *ngFor="let field of selectedFields">
+    <div *ngIf="field.variableType == VariableType.SINGLE_CHOICE || field.variableType == VariableType.MULTIPLE_CHOICE"
+        class="d-flex flex-column">
+        <span>{{variablesOptions[field.variableName]?.text}}</span>
+        <mat-form-field class="d-block" *ngIf="variablesOptions[field.variableName]">
+            <mat-select multiple [(value)]="variablesOptions[field.variableName].selectedFilter"
+                (openedChange)="emitFilterChange($event)" (selectionChange)="onFilterSelectionChange()">
+                <mat-option [value]="option.code"
+                    *ngFor="let option of variablesOptions[field.variableName].optionList">
+                    {{option.text}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div *ngIf="field.variableType == VariableType.TEXT || field.variableType == VariableType.NUMERIC"
+        class="d-flex flex-column">
+        <span>{{variablesOptions[field.variableName]?.text}}</span>
+        <mat-form-field *ngIf="variablesOptions[field.variableName]">
+            <input type="text" matInput [value]="variablesOptions[field.variableName].selectedFilter">
+        </mat-form-field>
+    </div>
+
+    <div *ngIf="field.variableType == VariableType.DATE_TIME" class="d-flex flex-column">
+        <span>{{variablesOptions[field.variableName]?.text}}</span>
+        <mat-form-field>
+            <input matInput [matDatepicker]="DateTypeVariable">
+            <mat-datepicker-toggle matSuffix [for]="DateTypeVariable"></mat-datepicker-toggle>
+            <mat-datepicker #DateTypeVariable></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+</div>

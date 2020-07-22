@@ -1,0 +1,30 @@
+<div class="col-6 float-left h-100"><img src="../../../assets/images/login.png" class="mt-5 pt-3 w-100"/></div>
+<div  class="col-6 float-left h-100" >
+    <div class="col-8 Login-box">       
+        <div class="mt-3 mb-4 text-center">
+            <h5>Sign in to Alert Management System</h5>
+        </div>
+        <div class="mb-4">
+            <label>Username</label>
+            <input type="text" class="form-control" [(ngModel)]="credentials.username">
+        </div>
+        <div class="mb-1">
+            <label>Password</label>
+            <input type="password" class="form-control" [(ngModel)]="credentials.password" (keyup)="onKeyUp($event)">
+        </div>
+        <div class="mb-4 clearfix">
+            <button class="btn btn-link float-right" (click)="forgotPassword()">Forgot your password?</button>
+        </div>
+        <div class="mb-4">
+            <button (click)="login()" class="btn btn-primary w-100 click">Sign In
+                <span *ngIf="loggingIn" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+            </button>
+        </div>
+        <div class="text-center">© 2020 NUMR Research, Inc. All Rights Reserved.</div>
+        <div class="text-center"><a href="https://www.numrresearch.com/privacy-policy" target="_blank">Privacy Policy</a></div>
+    </div>
+</div>
+<div class="text-center" style="position:absolute;left:10px;top:10px;">
+    <img src="../../../assets/images/Numr2-Logo.png" style="height:45px ;" />
+</div>
+

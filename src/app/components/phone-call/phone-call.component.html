@@ -1,0 +1,47 @@
+<div class="d-flex flex-column h-100">
+
+    <div class="flex-fill">
+        <div class="p-3 bg-dark font-size-120 text-white"><i class="fas fa-phone-alt mr-2"></i>Call
+            <img src="../../../assets/images/delete.png" class="click float-right" (click)="onDialogCancel()">
+        </div>
+
+       <div class="pl-4 pr-4 pt-4">
+        <div class="d-flex flex-row">
+            <span class="d-inline-block align-middle w-50">Phone: </span>
+            <span class="d-inline-block align-middle w-50">Status: </span>           
+        </div>
+
+        <div class="mt-2 d-flex flex-row">
+            <div class="d-inline-block align-middle w-50">
+                <span class="text-primary w-50 phone font-weight-bold mr-2"><u>{{alertData.respondentPhone}}</u></span>
+                <span class="btn btn-default border d-inline-block text-primary" matTooltip="Make a phone call" matTooltipPosition="above"
+                    style="height: 34px;width: 34px;"><i class=" fas fa-phone-alt p-0"
+                        (click)="callRespondent()"></i></span>
+            </div>
+            <mat-form-field class="form-field pb-0 w-50">
+                <mat-select class="small text-primary pb-0 " [(value)]="callDetails.status">
+                    <mat-option [value]="CallStatus.ANSWERED">Answered</mat-option>
+                    <mat-option [value]="CallStatus.NOT_AVAILABLE">Not Available</mat-option>
+                    <mat-option [value]="CallStatus.DID_NOT_ANSWER">Did Not Answer</mat-option>
+                    <mat-option [value]="CallStatus.VOICE_MAIL">Voice Mail</mat-option>
+                    <mat-option [value]="CallStatus.DISCONNECTED">Disconnected</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="mt-4">
+            <span class="mb-2">Note: </span>
+            <ckeditor class="h-100" [editor]="editor" [(ngModel)]="callDetails.note"></ckeditor>
+        </div>
+
+        <div class="ml-4 mt-2 mb-2 text-danger" style="height: 30px;">
+            <span class="text-danger mt-1 ml-1" *ngIf="displayError">*Please enter all the fields</span>
+        </div>
+           </div>
+
+        <div class="d-flex flex-row justify-content-end mb-1 mt-3 pr-3 pb-3">
+            <button class="btn btn-outline-secondary m-1" (click)="onDialogCancel()">Cancel</button>
+            <button type="button" class="m-1 btn btn-primary" (click)="onDialogSave()">Save</button>
+        </div>
+
+    </div>

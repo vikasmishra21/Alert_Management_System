@@ -1,0 +1,59 @@
+.fa-chevron-circle-left:hover {
+  color: black;
+}
+
+.fa-trash-alt:hover {
+  color: #ed1c24;
+}
+
+.fa-bell:hover {
+  color: #07b81e;
+}
+
+// .fa-bell-slash:hover,
+// .fa-edit:hover,
+// .fa-envelope:hover,
+// .fa-plus:hover,
+// .fa-phone-alt:hover,
+// .fa-scroll:hover {
+//   font-size: large;
+//   color:#0095d9!important
+// }
+
+.form-field {
+  // width: 130px;
+}
+
+// ::ng-deep .mat-form-field-underline {
+//   display: none;
+// }
+
+// ::ng-deep .mat-form-field-wrapper {
+//   padding: 0 !important;
+// }
+
+.btn-circle {
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 13px;
+  width: 40px;
+  height: 40px;
+  line-height: 1.8;
+  text-align: center;
+  background-color: #fafafa;
+}
+.btn-circle:hover {
+  background-color: #fff;
+  border-color: #2200ff !important;
+}
+.btn-circle i {
+  padding: 12px;
+}
+
+.text-primary {
+  color: #2200ff !important;
+}
+
+.alert-activity .btn-circle{line-height:2.5;font-size: 12px;margin-right: 6px;}
+.alerts:hover{background-color: #f2f2f2!important;}
+.alerts:hover .goBack{text-decoration: underline;}

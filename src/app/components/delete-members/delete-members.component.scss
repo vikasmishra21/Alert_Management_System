@@ -1,0 +1,20 @@
+.btn-circle {
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+  width: 40px;
+  height: 40px;
+  line-height: 1.8;
+  text-align: center;
+  background-color: #fafafa;
+}
+.btn-circle:hover {
+  background-color: #fff;
+  border-color: #2200ff !important;
+}
+.btn-circle i {
+  padding: 12px;
+}
+.text-primary {
+  color: #2200ff !important;
+}

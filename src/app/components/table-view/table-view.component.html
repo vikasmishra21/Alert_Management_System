@@ -1,0 +1,28 @@
+<div class="overflow-auto border">
+    <table class="table">
+        <thead class="font-weight-bold">
+            <tr class="bg-light">
+                <th *ngFor="let column of tableHeaders; let i = index" class="font-size-100  text-truncate bolder"><span (click)="sortOnColumn(i)"
+                        class="click"   matTooltip="{{column.text}}" matTooltipPosition="above">{{column.text}}
+                        <i *ngIf="orderBy === 'desc' && i === sortedColumnIndex" class="fas fa-caret-down"></i>
+                        <i *ngIf="orderBy === 'asc' && i === sortedColumnIndex" class="fas fa-caret-up"></i>
+                    </span>
+                </th>
+            </tr>
+        </thead>    
+        <tbody>
+            <tr *ngFor="let row of sortedData; let i = index">
+                <td *ngFor="let column of tableHeaders">
+                    <span *ngIf="column.property === 'id'" class="text-primary click d-block font-weight-bold"
+                        (click)="openAlert(i)">{{row[column.property]}}</span>
+                    <!-- <i class="fas fa-circle text-primary mr-2" *ngIf="row[column.property] =='LOW'"></i>
+                    <i class="fas fa-circle text-danger mr-2" *ngIf="row[column.property] =='HIGH'"></i>
+                    <i class="fas fa-circle mr-2" style="color: rgb(255, 193, 7);"
+                        *ngIf="row[column.property] =='MEDIUM'"></i> -->
+                    <span *ngIf="column.property !== 'id'" [ngClass]="{'Low':row[column.property] =='LOW','High':row[column.property] =='HIGH','Medium':row[column.property] =='MEDIUM'}">{{row[column.property]}}</span>
+    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

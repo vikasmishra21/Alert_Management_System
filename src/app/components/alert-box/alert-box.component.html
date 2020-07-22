@@ -1,0 +1,49 @@
+<div class="card h-fit-content w-fit-content alert-box">
+    <div class="card-body pt-2 pb-2 pr-2">
+        <div class="collapse-content">
+            <div class="row">
+                <span class="font-weight-bold text-primary col-9 pr-0 font-size-100 routeLink hover-underline"
+                    (click)="openAlert()"  matTooltip="{{alert.respondentName}}" matTooltipPosition="above">{{ alert.respondentName }}</span>
+                <span class="col-3 text-right pl-0">
+                    <i *ngIf="alert.expired"  matTooltip="Alert Overdue" matTooltipPosition="above" class="fas fa-circle text-danger pr-2 font-size-80"></i>
+                    <i *ngIf="alert.showNotification" matTooltip="Notification ON" matTooltipPosition="above" class="fas fa-bell text-success pr-2 font-size-80"></i>
+                    <!-- <i class="fas fa-paperclip text-primary"></i> -->
+                </span>
+            </div>
+            <span class="small"><b class="bolder">Open:</b>
+                <span class="text-secondary d-inline-block pl-1" matTooltip="{{transformedAlertProperties.openedOn}}" matTooltipPosition="above">{{ transformedAlertProperties.openedOn }}</span>
+                <span class="text-secondary d-inline-block pl-1" *ngIf="alert.status!=Status.CLOSED"  matTooltip="{{transformedAlertProperties.openHours }} HOURS" matTooltipPosition="above"> ({{transformedAlertProperties.openHours}} HOURS)</span>
+            </span>
+
+            <br>
+
+            <span class="small"><b class="bolder">Last Activity:</b>
+                <span class="text-secondary d-inline-block pl-1" matTooltip="{{transformedAlertProperties.lastActivityOn }}" matTooltipPosition="above">{{ transformedAlertProperties.lastActivityOn }}</span>
+            </span>
+
+            <br>
+
+            <span class="small"><b class="bolder">Priority:</b>
+                <span class="text-secondary d-inline-block pl-1" matTooltip="{{Priority[alert.priority] }}" matTooltipPosition="above">{{ Priority[alert.priority] }}</span>
+            </span>
+
+            <br>
+
+            <div *ngFor="let field of selectedFields" class="small">
+                <span class="text-truncate d-inline-block" style="max-width:50%"
+                    matTooltip="{{field.variableText}}" matTooltipPosition="above"><b class="bolder">{{field.variableText}}:  </b> 
+                </span>
+                <span class="d-inline-block text-truncate text-secondary pl-1"
+                    style="max-width: 50%" matTooltip="{{alert.fields[field.variableName]}}" matTooltipPosition="above">{{alert.fields[field.variableName]}}</span>
+
+                <br>
+            </div>
+
+            <div class="row">
+                <i matTooltip="Alert Details" matTooltipPosition="above" (click)="openAlert()"
+                    class="fa fa-info-circle click text-primary ml-auto mr-3"></i>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+</div>
